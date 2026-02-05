@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 网页标题 -->
+    <title>下载 预制版Windows 7</title>
+    <!-- 网页图标（favicon） -->
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <!-- 引入Font Awesome图标库（用于下载按钮图标） -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", 微软雅黑, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 页面主容器 */
+        .container {
+            background: #fff;
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* 提示标题样式（大字） */
+        .main-title {
+            font-size: 2rem;
+            color: #d93025;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* 说明文字样式 */
+        .desc-text {
+            font-size: 1.1rem;
+            color: #333;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        /* 视频+重点提示 容器（弹性布局实现左右分栏） */
+        .content-wrap {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            flex-wrap: wrap; /* 小屏幕自动换行，保证响应式 */
+            justify-content: center;
+        }
+
+        /* 视频区域样式（小尺寸，带边框） */
+        .video-area {
+            flex: 0 0 auto; /* 固定宽度，不拉伸 */
+            border: 1px solid #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        /* 视频标签样式（原生控件保留，尺寸适配） */
+        video {
+            width: 480px; /* 小尺寸视频，可根据需求微调 */
+            height: auto;
+            display: block;
+        }
+
+        /* 右侧内容容器（重点提示+下载按钮） */
+        .right-content {
+            flex: 0 0 350px;
+        }
+
+        /* 视频重点提示样式 */
+        .video-tips {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #222;
+            background: #f8f8f8;
+            padding: 1.5rem;
+            border-left: 4px solid #1890ff;
+            margin-bottom: 2rem;
+            display: none; /* 默认隐藏，视频播放后显示 */
+        }
+
+        /* 下载按钮样式（图标+文字，hover效果） */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            color: #fff;
+            background: #1890ff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #096dd9;
+        }
+
+        .download-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* 小屏幕适配 */
+        @media (max-width: 992px) {
+            .main-title {
+                font-size: 1.8rem;
+            }
+            video {
+                width: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrap {
+                flex-direction: column;
+                align-items: center;
+            }
+            .right-content {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 主标题：致VMware Workstation用户的一封提示 -->
+        <h1 class="main-title">致VMware Workstation用户的一封提示</h1>
+        
+        <!-- 说明文字 -->
+        <p class="desc-text">由于该版Windows 7虚拟机配置较特殊（容易引起7B蓝屏），请认真观看虚拟机创建视频。</p>
+        
+        <!-- 视频+重点提示 核心内容 -->
+        <div class="content-wrap">
+            <!-- 视频区域：播放video.mp4，默认暂停，保留原生控件 -->
+            <div class="video-area">
+                <video id="tipsVideo" controls preload="metadata" poster="">
+                    <source src="video.mp4" type="video/mp4">
+                    你的浏览器不支持HTML5视频播放，请升级浏览器后重试！
+                </video>
+            </div>
+
+            <!-- 右侧：视频重点+下载按钮 -->
+            <div class="right-content">
+                <!-- 视频重点提示（默认隐藏） -->
+                <div class="video-tips" id="videoTips">
+                    *视频重点：引导模式为UEFI，不启用安全引导模式。硬盘模式为SATA。
+                </div>
+
+                <!-- 下载按钮：图标+文字，跳转指定链接 -->
+                <a href="https://www.123865.com/s/AH3rVv-D29Rh?pwd=LVSm" target="_blank" class="download-btn">
+                    <i class="fas fa-download"></i>
+                    下载预制版Windows 7
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取视频元素和重点提示元素
+        const video = document.getElementById('tipsVideo');
+        const videoTips = document.getElementById('videoTips');
+
+        // 页面加载完成后，确保视频默认从头暂停
+        window.onload = function() {
+            video.pause();
+            video.currentTime = 0; // 强制回到视频开头
+        };
+
+        // 视频播放事件：显示重点提示
+        video.addEventListener('play', function() {
+            videoTips.style.display = 'block';
+        });
+
+        // 可选：视频暂停时不隐藏提示（避免用户暂停后看不到重点）
+        // video.addEventListener('pause', function() {
+        //     videoTips.style.display = 'none';
+        // });
+    </script>
+</body>
+</html>

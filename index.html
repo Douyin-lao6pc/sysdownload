@@ -2,90 +2,125 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <!-- 适配移动端，禁止缩放 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>预制Windows系统下载</title>
+    <!-- 引入网页图标icon.ico -->
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="icon.ico" type="image/x-icon">
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome图标库（下载图标） -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* 全局样式重置，消除默认边距和内边距 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft YaHei", 微软雅黑, Arial, sans-serif;
+        /* 平滑锚点跳转 */
+        html {
+            scroll-behavior: smooth;
         }
-
-        /* 页面主体占满整个屏幕，相对定位（用于logo绝对定位），背景浅灰更柔和 */
-        body {
-            width: 100vw;
-            height: 100vh;
-            background-color: #f5f5f5;
-            position: relative;
-            overflow: hidden; /* 隐藏滚动条，避免页面溢出 */
+        /* 背景图通用样式：覆盖、居中、固定、模糊优化 */
+        .bg-win {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
-
-        /* logo样式：固定右上角，不随滚动移动，设置合适大小，保留边距 */
-        .logo {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 200px; /* logo宽度，可根据实际图片调整 */
-            height: 48px; /* 宽高一致，可根据实际图片调整 */
-            object-fit: contain; /* 保持logo比例，不拉伸变形 */
-            z-index: 999; /* 确保logo在最上层 */
+        /* 移动端工具条横向滚动 */
+        .nav-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
-
-        /* 居中容器：弹性布局实现水平+垂直居中，占满整个屏幕 */
-        .container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px; /* 左右内边距，避免小屏幕文字贴边 */
-        }
-
-        /* 开发中提示文字：大字号、粗体、深灰色，添加轻微阴影增强视觉，居中对齐 */
-        .develop-tip {
-            font-size: 3rem; /* 主字号，响应式会自动适配 */
-            font-weight: 700;
-            color: #333333;
-            text-align: center;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            line-height: 1.6; /* 行高，提升可读性 */
-        }
-
-        /* 响应式适配：小屏幕（平板/笔记本）缩小文字字号，适配logo大小 */
-        @media (max-width: 768px) {
-            .develop-tip {
-                font-size: 2rem;
-            }
-            .logo {
-                width: 60px;
-                height: 60px;
-            }
-        }
-
-        /* 超小屏幕（手机）进一步缩小，保证显示完整 */
-        @media (max-width: 480px) {
-            .develop-tip {
-                font-size: 1.5rem;
-            }
-            .logo {
-                width: 40px;
-                height: 40px;
-                top: 10px;
-                right: 10px;
-            }
+        .nav-scroll::-webkit-scrollbar {
+            display: none;
         }
     </style>
 </head>
-<body>
-    <!-- 右上角logo：src指向logo.png，alt为图片描述（SEO/加载失败时显示） -->
-    <img src="logo.png" alt="预制Windows系统下载logo" class="logo">
+<body class="m-0 p-0 font-sans text-white">
+    <!-- 顶部固定工具条：左侧导航+右侧Logo -->
+    <nav class="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-sm z-50 py-3 px-4 md:px-8 flex justify-between items-center">
+        <!-- 左侧系统导航项 -->
+        <div class="nav-scroll flex gap-6 md:gap-8 items-center text-lg md:text-xl font-medium">
+            <a href="#win11" class="hover:text-sky-400 transition-colors duration-300">Windows 11</a>
+            <a href="#win10" class="hover:text-sky-400 transition-colors duration-300">Windows 10</a>
+            <a href="#win8" class="hover:text-sky-400 transition-colors duration-300">Windows 8.1</a>
+            <a href="#win7" class="hover:text-sky-400 transition-colors duration-300">Windows 7</a>
+        </div>
+        <!-- 右侧Logo图片：固定尺寸200×48，移动端适配隐藏 -->
+        <div class="hidden md:block">
+            <img src="logo.png" alt="logo" width="200" height="48" class="object-contain">
+        </div>
+    </nav>
 
-    <!-- 中间开发提示文字容器 -->
-    <div class="container">
-        <p class="develop-tip">此项目正在开发，需稍等开发完成后浏览。</p>
-    </div>
+    <!-- 页面主体：预留顶部工具条高度（pt-16） -->
+    <main class="pt-16">
+        <!-- Windows 11 板块 -->
+        <section id="win11" class="bg-win h-screen flex flex-col justify-center items-center relative" style="background-image: url('11.jpg');">
+            <!-- 半透明遮罩，保证文字清晰 -->
+            <div class="absolute inset-0 bg-black/50"></div>
+            <!-- 内容层（高于遮罩） -->
+            <div class="relative z-10 text-center px-4">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">预制版Windows 11</h2>
+                <p class="text-xl md:text-2xl mb-2">格式：iso &nbsp;&nbsp; 大小：9.1 GB</p>
+                <p class="text-xl md:text-2xl mb-8">UEFI引导：支持 &nbsp;&nbsp; Lagacy BIOS引导：支持</p>
+                <!-- 下载按钮：跳转至必应 -->
+                <a href="https://www.123865.com/s/AH3rVv-N29Rh?pwd=nPj1#" class="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                    <i class="fas fa-download"></i>
+                    立即下载
+                </a>
+            </div>
+        </section>
+
+        <!-- Windows 10 板块 -->
+        <section id="win10" class="bg-win h-screen flex flex-col justify-center items-center relative" style="background-image: url('10.jpg');">
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="relative z-10 text-center px-4">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">预制版Windows 10</h2>
+                <p class="text-xl md:text-2xl mb-2">格式：iso &nbsp;&nbsp; 大小：6.6 GB</p>
+                <p class="text-xl md:text-2xl mb-8">UEFI引导：支持 &nbsp;&nbsp; Lagacy BIOS引导：支持</p>
+                <!-- 下载按钮：跳转至必应 -->
+                <a href="https://www.123865.com/s/AH3rVv-O29Rh?pwd=A643#" class="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                    <i class="fas fa-download"></i>
+                    立即下载
+                </a>
+            </div>
+        </section>
+
+        <!-- Windows 8.1 板块 -->
+        <section id="win8" class="bg-win h-screen flex flex-col justify-center items-center relative" style="background-image: url('8.jpg');">
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="relative z-10 text-center px-4">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">预制版Windows 8.1</h2>
+                <p class="text-xl md:text-2xl mb-2">格式：iso &nbsp;&nbsp; 大小：4.5 GB</p>
+                <p class="text-xl md:text-2xl mb-8">UEFI引导：支持 &nbsp;&nbsp; Lagacy BIOS引导：支持</p>
+                <!-- 下载按钮：跳转至必应 -->
+                <a href="https://www.123865.com/s/AH3rVv-R29Rh?pwd=K920#" class="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                    <i class="fas fa-download"></i>
+                    立即下载
+                </a>
+            </div>
+        </section>
+
+        <!-- Windows 7 板块 -->
+        <section id="win7" class="bg-win h-screen flex flex-col justify-center items-center relative" style="background-image: url('7.jpg');">
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="relative z-10 text-center px-4">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">预制版Windows 7</h2>
+                <p class="text-xl md:text-2xl mb-2">格式：iso &nbsp;&nbsp; 大小：4.4 GB</p>
+                <p class="text-xl md:text-2xl mb-8">UEFI引导：支持 &nbsp;&nbsp; Lagacy BIOS引导：支持</p>
+                <!-- 下载按钮：跳转至必应 -->
+                <a href="https://douyin-lao6pc.github.io/sysdownload/downloadtips.html" class="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-lg text-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                    <i class="fas fa-download"></i>
+                    立即下载
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 工具条点击后，移除移动端滚动条（优化体验）
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-scroll').scrollLeft = 0;
+            });
+        });
+    </script>
 </body>
 </html>
